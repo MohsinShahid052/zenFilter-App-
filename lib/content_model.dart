@@ -13,7 +13,7 @@ class UnbordingContent {
 List<UnbordingContent> contents = [
   UnbordingContent(
     title: 'Welcome to zenFilter',
-    image: 'images/quality.svg',
+    image: 'images/hh.svg',
     discription:
         "zenFilter is our app dedicated to the same purpose, effectively detecting and blocking explicit and violent content. It goes beyond, notifying guardians promptly to ensure a secure digital experience for users. ",
   ),

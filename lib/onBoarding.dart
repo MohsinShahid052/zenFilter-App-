@@ -100,7 +100,7 @@ class _OnboardingState extends State<Onboarding> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.yellow,
+                primary: Color(0xFFF79817),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -109,8 +109,8 @@ class _OnboardingState extends State<Onboarding> {
                 currentIndex == contents.length - 1 ? "Continue" : "Next",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20, // Set the desired font size here
-                  color: Colors.black, // Set the text color to black
+                  fontSize: 20,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -127,22 +127,8 @@ class _OnboardingState extends State<Onboarding> {
       margin: EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.yellow,
+        color: Color(0xFFF79817),
       ),
     );
   }
 }
-//
-//In this code, we have a `StatefulWidget` called `Onboarding` that contains a `State` object called `_OnboardingState`. The `State` object is responsible for managing the state of the widget.
-//
-//Inside the `_OnboardingState` class, we have a variable called `currentIndex` that keeps track of the current index of the onboarding screen. We also have a `PageController` called `_controller` that is used to control the page view.
-//
-//The `build` method of the `_OnboardingState` class returns a `Scaffold` widget. Inside the `Scaffold`, we have a `Column` widget that contains an `Expanded` widget, a `Container` widget for the dots, and another `Container` widget for the "Continue" or "Next" button.
-//
-//The `Expanded` widget contains a `PageView.builder` widget that builds the onboarding screens. The `PageView.builder` widget takes a `PageController` and an `itemCount` as parameters. The `itemCount` is the number of onboarding screens, which is the length of the `contents` list.
-//
-//The `buildDot` method is used to build the dots that indicate the current onboarding screen. It takes the index of the dot and the `BuildContext` as parameters.
-//
-//The "Continue" or "Next" button is an `ElevatedButton` widget that navigates to the `Login` screen when the last onboarding screen is displayed. Otherwise, it moves to the next onboarding screen.
-//
-//This code is well-commented and should provide a clear understanding of how it works.
