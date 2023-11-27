@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:zenfilter/login.dart';
-import 'package:zenfilter/content_model.dart';
+import 'package:zenfilter/Dashboard/dashboard.dart';
+//import 'package:zenfilter/login.dart';
+import 'package:zenfilter/onBoarding Screens/content_model.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -50,17 +50,17 @@ class _OnboardingState extends State<Onboarding> {
                       ),
                       Text(
                         contents[i].title,
-                        style: TextStyle(
+                        style:const TextStyle(
                           color: Colors.white,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 20),
+                     const SizedBox(height: 20),
                       Text(
                         contents[i].discription,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           color: Colors.grey,
                         ),
@@ -82,7 +82,7 @@ class _OnboardingState extends State<Onboarding> {
           ),
           Container(
             height: 60,
-            margin: EdgeInsets.all(40),
+            margin:const EdgeInsets.all(40),
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
@@ -90,24 +90,24 @@ class _OnboardingState extends State<Onboarding> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => Login(),
+                      builder: (_) => Dashboard(),
                     ),
                   );
                 }
                 _controller.nextPage(
-                  duration: Duration(milliseconds: 100),
+                  duration:const Duration(milliseconds: 100),
                   curve: Curves.bounceIn,
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFFF79817),
+                primary:const Color(0xFFF79817),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
               child: Text(
                 currentIndex == contents.length - 1 ? "Continue" : "Next",
-                style: TextStyle(
+                style:const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   color: Colors.black,
@@ -124,10 +124,10 @@ class _OnboardingState extends State<Onboarding> {
     return Container(
       height: 10,
       width: currentIndex == index ? 25 : 10,
-      margin: EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Color(0xFFF79817),
+        color: const Color(0xFFF79817),
       ),
     );
   }

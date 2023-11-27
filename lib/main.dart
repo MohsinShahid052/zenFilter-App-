@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'onBoarding.dart';
+import "./onBoarding Screens/onBoarding.dart";
+
+//import './Dashboard/dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xFFF79817), // Setting the primary color
+        primaryColor: const Color(0xFFF79817), // Setting the primary color
         scaffoldBackgroundColor: Colors.black,
       ),
       home: Onboarding(),
