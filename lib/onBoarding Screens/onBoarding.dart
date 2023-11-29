@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zenfilter/Dashboard/dashboard.dart';
-//import 'package:zenfilter/login.dart';
+
+import 'package:zenfilter/login.dart';
+
 import 'package:zenfilter/onBoarding Screens/content_model.dart';
 
 class Onboarding extends StatefulWidget {
@@ -90,7 +91,7 @@ class _OnboardingState extends State<Onboarding> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => Dashboard(),
+                      builder: (_) => LoginSignupPage(),
                     ),
                   );
                 }
