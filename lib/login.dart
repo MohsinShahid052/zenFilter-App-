@@ -16,7 +16,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF79817),
+      backgroundColor:const Color(0xFFF79817),
       body: Stack(
         children: [
           
@@ -42,7 +42,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                           style: TextStyle(
                             fontSize: 25,
                             letterSpacing: 2,
-                            color: Colors.orangeAccent,
+                            color: const Color(0xFFF79817),
                           ),
                           children: [
                             TextSpan(
@@ -50,7 +50,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.orangeAccent,
+                                color: const Color(0xFFF79817),
                               ),
                             )
                           ]),
@@ -111,14 +111,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                             children: [
                             Text('Login',style: TextStyle(
                               fontSize: 16,fontWeight: FontWeight.bold,
-                              color: !isSignupScreen ? Colors.orangeAccent : Palette.textColor1),
+                              color: !isSignupScreen ?const Color(0xFFF79817) : Palette.textColor1),
                             ),
                             if(!isSignupScreen)
                             Container(
                               margin: EdgeInsets.only(top: 3),
                               height: 2,
                                 width: 55,
-                              color: Colors.orangeAccent,
+                              color: const Color(0xFFF79817),
                             )
                           ],),
                         ),
@@ -132,14 +132,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                             children: [
                             Text('Signup',style: TextStyle(
                                 fontSize: 16,fontWeight: FontWeight.bold,
-                                color: isSignupScreen ? Colors.orangeAccent :Palette.textColor1 ),
+                                color: isSignupScreen ?const Color(0xFFF79817) :Palette.textColor1 ),
                                  ),
                                  if(isSignupScreen)
                             Container(
                               margin: EdgeInsets.only(top: 3),
                               height: 2,
                               width: 55,
-                              color: Colors.orangeAccent,
+                              color: const Color(0xFFF79817),
                             )
                           ],),
                         )
