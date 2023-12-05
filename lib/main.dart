@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-//import "./onBoarding Screens/onBoarding.dart";
-import './Dashboard/dashboard.dart';
+import "./onBoarding Screens/onBoarding.dart";
+//import './Dashboard/dashboard.dart';
 //import './pages/about.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFFF79817), // Setting the primary color
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: Dashboard(),
+      home: Onboarding(),
     );
   }
 }
