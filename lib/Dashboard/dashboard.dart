@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:zenfilter/onBoarding%20Screens/onBoarding.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  int _currentIndex = 0;
+
   final List<String> imgSrc = [
     "images/p3.png",
     "images/history.png",
@@ -26,90 +34,96 @@ class Dashboard extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
       body: Container(
         color: const Color(0xFFF79817),
         height: height,
         width: width,
-        child: ListView(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: height * 0.03,
-                left: width * 0.03,
-                right: width * 0.03,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 80),
+          child: Column(
+            children: [
+              // Added Text
+              const Text(
+                "Welcome to Dashboard",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 10, 10, 10),
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.sort,
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    size: width * 0.1,
-                  ),
-                  Container(
-                    height: height * 0.07,
-                    width: height * 0.07,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(height * 0.04),
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/woman.png"),
+              const SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: width * 0.03,
+                  right: width * 0.03,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Container(
+                        height: height * 0.08,
+                        width: height * 0.08,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(height * 0.04),
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          image: const DecorationImage(
+                            image: AssetImage("images/woman.png"),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: height * 0.03,
-                left: width * 0.05,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Dashboard",
-                    style: TextStyle(
-                      fontSize: width * 0.08,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1,
+                    const SizedBox(
+                      width: 15,
                     ),
-                  ),
-                  Text(
-                    "Recent Open Time: " +
-                        DateFormat.jm().format(DateTime.now()),
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.black,
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "AlamBinary01",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "alambinary011@gmial.com",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            LimitedBox(
-              maxHeight: height * 0.020,
-              child: Container(
-                width: width,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(height * 0.05),
-                    topRight: Radius.circular(height * 0.05),
-                  ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        // Implement your logout logic here
+                      },
+                    ),
+                  ],
                 ),
-                height: height * 0.8,
-                width: width,
-                padding: const EdgeInsets.only(top: 20),
-                child: Column(
-                  children: [
-                    GridView.builder(
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(height * 0.03),
+                        topRight: Radius.circular(height * 0.03),
+                      ),
+                    ),
+                    padding: const EdgeInsets.only(top: 0),
+                    child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -119,27 +133,26 @@ class Dashboard extends StatelessWidget {
                       ),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(5),
                       itemCount: imgSrc.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ItemDetailsPage(
-                                  imagePath: imgSrc[index],
-                                  itemName: imgNames[index],
+                            if (imgNames[index] == "Preferences") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Onboarding(),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           },
                           child: Container(
                             margin: const EdgeInsets.all(8),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Color.fromARGB(255, 255, 255, 255),
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black26,
@@ -156,7 +169,7 @@ class Dashboard extends StatelessWidget {
                                 ),
                                 Text(
                                   imgNames[index],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -168,64 +181,27 @@ class Dashboard extends StatelessWidget {
                         );
                       },
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: const BottomAppBar(
-        color: Color(0xFFF79817),
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Copyright by Zenfilter',
-                style: TextStyle(color: Colors.black),
-              ),
-              Text(
-                '  |  Developed by HMS',
-                style: TextStyle(color: Colors.black),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class ItemDetailsPage extends StatelessWidget {
-  final String imagePath;
-  final String itemName;
-
-  const ItemDetailsPage({
-    Key? key,
-    required this.imagePath,
-    required this.itemName,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(itemName),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(imagePath),
-          const SizedBox(height: 20),
-          Text(
-            itemName,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+        color: const Color(0xFFF79817),
+        buttonBackgroundColor: const Color(0xFFF79817),
+        height: 50,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: const [
+          Icon(Icons.home, size: 30),
+          Icon(Icons.block, size: 30),
+          Icon(Icons.settings, size: 30),
         ],
       ),
     );
