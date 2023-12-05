@@ -50,7 +50,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                           style: TextStyle(
                             fontSize: 25,
                             letterSpacing: 2,
-                            color: const Color(0xFFF79817),
+                            color: Colors.orangeAccent,
                           ),
                           children: [
                             TextSpan(
@@ -58,7 +58,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
-                                color: const Color(0xFFF79817),
+                                color: Colors.orangeAccent,
                               ),
                             )
                           ]),
@@ -150,7 +150,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: isSignupScreen
-                                        ? const Color(0xFFF79817)
+                                        ? Colors.orangeAccent
                                         : Palette.textColor1),
                               ),
                               if (isSignupScreen)
@@ -158,7 +158,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                                   margin: EdgeInsets.only(top: 3),
                                   height: 2,
                                   width: 55,
-                                  color: const Color(0xFFF79817),
+                                  color: Colors.orangeAccent,
                                 )
                             ],
                           ),
