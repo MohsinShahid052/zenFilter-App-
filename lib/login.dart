@@ -50,8 +50,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                           style: TextStyle(
                             fontSize: 25,
                             letterSpacing: 2,
+<<<<<<< HEAD
                             color: const Color(0xFFF79817),
                             fontFamily: "Ubuntu",
+=======
+                            color: Colors.orangeAccent,
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                           ),
                           children: [
                             TextSpan(
@@ -59,8 +63,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
+<<<<<<< HEAD
                                 color: const Color(0xFFF79817),
                                 fontFamily: "Ubuntu",
+=======
+                                color: Colors.orangeAccent,
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                               ),
                             )
                           ]),
@@ -124,7 +132,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
+<<<<<<< HEAD
                                     fontFamily: "Ubuntu",
+=======
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                                     color: !isSignupScreen
                                         ? const Color(0xFFF79817)
                                         : Palette.textColor1),
@@ -152,9 +163,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
+<<<<<<< HEAD
                                     fontFamily: "Ubuntu",
                                     color: isSignupScreen
                                         ? const Color(0xFFF79817)
+=======
+                                    color: isSignupScreen
+                                        ? Colors.orangeAccent
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                                         : Palette.textColor1),
                               ),
                               if (isSignupScreen)
@@ -162,7 +178,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                                   margin: EdgeInsets.only(top: 3),
                                   height: 2,
                                   width: 55,
+<<<<<<< HEAD
                                   color: const Color(0xFFF79817),
+=======
+                                  color: Colors.orangeAccent,
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                                 )
                             ],
                           ),
@@ -229,21 +249,29 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                     },
                   ),
                   Text('Remember me',
+<<<<<<< HEAD
                       style: TextStyle(
                         fontSize: 12,
                         color: Palette.textColor1,
                         fontFamily: "Ubuntu",
                       ))
+=======
+                      style: TextStyle(fontSize: 12, color: Palette.textColor1))
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                 ],
               ),
               TextButton(
                 onPressed: () {},
                 child: Text('Forget Password?',
+<<<<<<< HEAD
                     style: TextStyle(
                       fontSize: 12,
                       color: Palette.textColor1,
                       fontFamily: "Ubuntu",
                     )),
+=======
+                    style: TextStyle(fontSize: 12, color: Palette.textColor1)),
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
               )
             ],
           )
@@ -463,11 +491,15 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           ),
           contentPadding: EdgeInsets.all(10),
           hintText: hintText,
+<<<<<<< HEAD
           hintStyle: TextStyle(
             fontSize: 14,
             color: Palette.textColor1,
             fontFamily: "Ubuntu",
           ),
+=======
+          hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
         ),
       ),
     );

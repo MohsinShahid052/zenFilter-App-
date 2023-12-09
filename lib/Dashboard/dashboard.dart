@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:zenfilter/onBoarding%20Screens/onBoarding.dart';
+<<<<<<< HEAD
 import 'package:zenfilter/pages/customerSupport.dart';
 import '../pages/about.dart';
+=======
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
 
 class Dashboard extends StatefulWidget {
   @override
@@ -50,7 +53,10 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
+<<<<<<< HEAD
                   fontFamily: "Ubuntu",
+=======
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                   color: Color.fromARGB(255, 10, 10, 10),
                 ),
               ),
@@ -90,7 +96,10 @@ class _DashboardState extends State<Dashboard> {
                               fontSize: 18,
                               color: Color.fromARGB(255, 0, 0, 0),
                               fontWeight: FontWeight.bold,
+<<<<<<< HEAD
                               fontFamily: "Ubuntu",
+=======
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                             ),
                           ),
                           Text(
@@ -98,7 +107,10 @@ class _DashboardState extends State<Dashboard> {
                             style: TextStyle(
                               fontSize: 14,
                               color: Color.fromARGB(255, 0, 0, 0),
+<<<<<<< HEAD
                               fontFamily: "Ubuntu",
+=======
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                             ),
                           ),
                         ],
@@ -151,6 +163,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               );
                             }
+<<<<<<< HEAD
                             if (imgNames[index] == "About Us") {
                               Navigator.push(
                                 context,
@@ -167,6 +180,8 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               );
                             }
+=======
+>>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
                           },
                           child: Container(
                             margin: const EdgeInsets.all(8),
