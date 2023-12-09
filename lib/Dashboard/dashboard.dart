@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:zenfilter/onBoarding%20Screens/onBoarding.dart';
-<<<<<<< HEAD
-import 'package:zenfilter/pages/customerSupport.dart';
-import '../pages/about.dart';
-=======
->>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
+import 'package:intl/intl.dart';
 
-class Dashboard extends StatefulWidget {
-  @override
-  _DashboardState createState() => _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
-  int _currentIndex = 0;
-
+class Dashboard extends StatelessWidget {
   final List<String> imgSrc = [
     "images/p3.png",
     "images/history.png",
@@ -39,108 +26,90 @@ class _DashboardState extends State<Dashboard> {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Container(
         color: const Color(0xFFF79817),
         height: height,
         width: width,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 80),
-          child: Column(
-            children: [
-              // Added Text
-              const Text(
-                "Welcome to Dashboard",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-<<<<<<< HEAD
-                  fontFamily: "Ubuntu",
-=======
->>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
-                  color: Color.fromARGB(255, 10, 10, 10),
-                ),
+        child: ListView(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: height * 0.03,
+                left: width * 0.03,
+                right: width * 0.03,
               ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: width * 0.03,
-                  right: width * 0.03,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Container(
-                        height: height * 0.08,
-                        width: height * 0.08,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(height * 0.04),
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          image: const DecorationImage(
-                            image: AssetImage("images/woman.png"),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "AlamBinary01",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontWeight: FontWeight.bold,
-<<<<<<< HEAD
-                              fontFamily: "Ubuntu",
-=======
->>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
-                            ),
-                          ),
-                          Text(
-                            "alambinary011@gmial.com",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 0, 0, 0),
-<<<<<<< HEAD
-                              fontFamily: "Ubuntu",
-=======
->>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        // Implement your logout logic here
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    Icons.sort,
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    size: width * 0.1,
+                  ),
+                  Container(
+                    height: height * 0.07,
+                    width: height * 0.07,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(height * 0.04),
                       color: const Color.fromARGB(255, 0, 0, 0),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(height * 0.03),
-                        topRight: Radius.circular(height * 0.03),
+                      image: const DecorationImage(
+                        image: AssetImage("images/woman.png"),
                       ),
                     ),
-                    padding: const EdgeInsets.only(top: 0),
-                    child: GridView.builder(
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: height * 0.03,
+                left: width * 0.05,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Dashboard",
+                    style: TextStyle(
+                      fontSize: width * 0.08,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                  Text(
+                    "Recent Open Time: " +
+                        DateFormat.jm().format(DateTime.now()),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            LimitedBox(
+              maxHeight: height * 0.020,
+              child: Container(
+                width: width,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(height * 0.05),
+                    topRight: Radius.circular(height * 0.05),
+                  ),
+                ),
+                height: height * 0.8,
+                width: width,
+                padding: const EdgeInsets.only(top: 20),
+                child: Column(
+                  children: [
+                    GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -150,45 +119,27 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(15),
                       itemCount: imgSrc.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            if (imgNames[index] == "Preferences") {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Onboarding(),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemDetailsPage(
+                                  imagePath: imgSrc[index],
+                                  itemName: imgNames[index],
                                 ),
-                              );
-                            }
-<<<<<<< HEAD
-                            if (imgNames[index] == "About Us") {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TeamHierarchyPage(),
-                                ),
-                              );
-                            }
-                            if (imgNames[index] == "Help") {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CustomerSupport(),
-                                ),
-                              );
-                            }
-=======
->>>>>>> 4e843dd087a2fa91dc5ea81c32aced89384b2164
+                              ),
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.all(8),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: const Color.fromARGB(255, 255, 255, 255),
+                              color: Color.fromARGB(255, 255, 255, 255),
                               boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black26,
@@ -205,11 +156,10 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 Text(
                                   imgNames[index],
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "Ubuntu",
                                   ),
                                 ),
                               ],
@@ -218,27 +168,64 @@ class _DashboardState extends State<Dashboard> {
                         );
                       },
                     ),
-                  ),
+                  ],
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: const BottomAppBar(
+        color: Color(0xFFF79817),
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Copyright by Zenfilter',
+                style: TextStyle(color: Colors.black),
+              ),
+              Text(
+                '  |  Developed by HMS',
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: const Color.fromARGB(0, 255, 255, 255),
-        color: const Color(0xFFF79817),
-        buttonBackgroundColor: const Color(0xFFF79817),
-        height: 50,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          Icon(Icons.home, size: 30),
-          Icon(Icons.block, size: 30),
-          Icon(Icons.settings, size: 30),
+    );
+  }
+}
+
+class ItemDetailsPage extends StatelessWidget {
+  final String imagePath;
+  final String itemName;
+
+  const ItemDetailsPage({
+    Key? key,
+    required this.imagePath,
+    required this.itemName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(itemName),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(imagePath),
+          const SizedBox(height: 20),
+          Text(
+            itemName,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

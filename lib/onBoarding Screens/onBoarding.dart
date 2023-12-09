@@ -50,21 +50,19 @@ class _OnboardingState extends State<Onboarding> {
                       ),
                       Text(
                         contents[i].title,
-                        style: const TextStyle(
+                        style:const TextStyle(
                           color: Colors.white,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          fontFamily: "Ubuntu",
                         ),
                       ),
-                      const SizedBox(height: 20),
+                     const SizedBox(height: 20),
                       Text(
                         contents[i].discription,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.grey,
-                          fontFamily: "Ubuntu",
                         ),
                       )
                     ],
@@ -84,7 +82,7 @@ class _OnboardingState extends State<Onboarding> {
           ),
           Container(
             height: 60,
-            margin: const EdgeInsets.all(40),
+            margin:const EdgeInsets.all(40),
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
@@ -97,23 +95,22 @@ class _OnboardingState extends State<Onboarding> {
                   );
                 }
                 _controller.nextPage(
-                  duration: const Duration(milliseconds: 100),
+                  duration:const Duration(milliseconds: 100),
                   curve: Curves.bounceIn,
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xFFF79817),
+                primary:const Color(0xFFF79817),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
               child: Text(
                 currentIndex == contents.length - 1 ? "Continue" : "Next",
-                style: const TextStyle(
+                style:const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   color: Colors.black,
-                  fontFamily: "Ubuntu",
                 ),
               ),
             ),
