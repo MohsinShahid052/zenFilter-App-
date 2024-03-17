@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:zenfilter/onBoarding%20Screens/onBoarding.dart';
-import 'package:zenfilter/pages/customerSupport.dart';
+import '/pages/customerSupport.dart';
+import "../onBoardingScreens/onBoarding.dart";
+import 'package:zenFilter/login_signup/loginPage.dart';
+import '../pages/settings.dart';
 import '../pages/about.dart';
 
 class Dashboard extends StatefulWidget {
@@ -13,12 +15,12 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   final List<String> imgSrc = [
-    "images/p3.png",
-    "images/history.png",
-    "images/web.png",
-    "images/phone.png",
-    "images/help.png",
-    "images/about.png",
+    "assets/images/p3.png",
+    "assets/images/history.png",
+    "assets/images/web.png",
+    "assets/images/phone.png",
+    "assets/images/help.png",
+    "assets/images/about.png",
   ];
 
   final List<String> imgNames = [
@@ -107,10 +109,17 @@ class _DashboardState extends State<Dashboard> {
                     IconButton(
                       icon: const Icon(
                         Icons.logout,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                       onPressed: () {
-                        // Implement your logout logic here
+                        // Navigate to the login page
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                LoginPage(), // Replace LoginPage with your actual login page
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -160,12 +169,7 @@ class _DashboardState extends State<Dashboard> {
                               );
                             }
                             if (imgNames[index] == "Help") {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CustomerSupport(),
-                                ),
-                              );
+                              print("Help");
                             }
                           },
                           child: Container(
@@ -218,6 +222,15 @@ class _DashboardState extends State<Dashboard> {
         onTap: (int index) {
           setState(() {
             _currentIndex = index;
+            if (_currentIndex == 2) {
+              // Navigate to the Settings page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingPage(),
+                ),
+              );
+            }
           });
         },
         items: const [

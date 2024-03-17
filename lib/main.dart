@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
-//import 'package:zenfilter/onBoarding%20Screens/onBoarding.dart';
-//import './Dashboard/dashboard.dart';
-//import './pages/about.dart';
-import './pages/customerSupport.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:zenFilter/services/init.dart';
+import 'package:zenFilter/services/themes.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter/foundation.dart';
+import "package:zenFilter/login_signup/splashScreen.dart";
 
-Future main() async {
-  await dotenv.load(fileName: ".env");
-  runApp(MyApp());
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb &&
+      kDebugMode &&
+      defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+  }
+  WidgetsFlutterBinding.ensureInitialized();
+  await initialize();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primaryColor: const Color(0xFFF79817), // Setting the primary color
-          scaffoldBackgroundColor: Colors.black,
-          fontFamily: "Ubuntu"),
-      home: const CustomerSupport(),
+      theme: CustomTheme.dark,
+      home: SplashScreen(),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart';
 import '../Dashboard/dashboard.dart';
 
 class TeamHierarchyPage extends StatelessWidget {
@@ -8,10 +7,14 @@ class TeamHierarchyPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title: const Text(
+          "About Us",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: const Color(0xFFF79817),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          color: Colors.white,
+          color: Colors.black,
           onPressed: () {
             Navigator.push(
               context,
@@ -45,12 +48,12 @@ class TeamHierarchyPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 40),
-            const TeamImage('images/woman.png', 'Mr. Ali Raza'),
+            const TeamImage(imagePath: 'images/woman.png', teamName: 'Mr. Ali Raza'),
             const SizedBox(height: 10),
             Container(
               width: 220,
               height: 2,
-              color: Color(0xFFF79817), // #F79817 color
+              color: const Color(0xFFF79817), // #F79817 color
             ),
             const SizedBox(height: 0),
             Row(
@@ -60,12 +63,10 @@ class TeamHierarchyPage extends StatelessWidget {
                   tween: Tween<double>(begin: 0.0, end: 1.0),
                   duration: const Duration(seconds: 1),
                   builder: (context, value, child) {
+                    final double? animationValue = value as double?;
                     return Transform.scale(
-                      scale: value,
-                      child: const TeamWithBlueLine(
-                        'images/woman.png',
-                        'Haseeb Mushtaq',
-                      ),
+                      scale: animationValue ?? 0.0,
+                      child: const TeamWithBlueLine(imagePath: 'images/woman.png', teamName: 'Haseeb Mushtaq'),
                     );
                   },
                 ),
@@ -73,12 +74,10 @@ class TeamHierarchyPage extends StatelessWidget {
                   tween: Tween<double>(begin: 0.0, end: 1.0),
                   duration: const Duration(seconds: 1),
                   builder: (context, value, child) {
+                    final double? animationValue = value as double?;
                     return Transform.scale(
-                      scale: value,
-                      child: const TeamWithBlueLine(
-                        'images/woman.png',
-                        'Subhan Ateeq',
-                      ),
+                      scale: animationValue ?? 0.0,
+                      child: const TeamWithBlueLine(imagePath: 'images/woman.png', teamName: 'Subhan Ateeq'),
                     );
                   },
                 ),
@@ -86,12 +85,10 @@ class TeamHierarchyPage extends StatelessWidget {
                   tween: Tween<double>(begin: 0.0, end: 1.0),
                   duration: const Duration(seconds: 1),
                   builder: (context, value, child) {
+                    final double? animationValue = value as double?;
                     return Transform.scale(
-                      scale: value,
-                      child: const TeamWithBlueLine(
-                        'images/woman.png',
-                        'Mohsin Shahid',
-                      ),
+                      scale: animationValue ?? 0.0,
+                      child: const TeamWithBlueLine(imagePath: 'images/woman.png', teamName: 'Mohsin Shahid'),
                     );
                   },
                 ),
@@ -101,24 +98,16 @@ class TeamHierarchyPage extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.04,
             ),
-            // ExpansionTiles for developers
-            buildExpansionTile(
-                'Haseeb Mushtaq',
-                'Flutter UI & Backend Developer',
-                'https://github.com/',
-                'YourLinkedInProfile'),
-            buildExpansionTile('Subhan Ateeq', 'MERN Stack Developer',
-                'https://github.com/', 'YourLinkedInProfile'),
-            buildExpansionTile('Mohsin Shahid', 'Mobile Developer',
-                'https://github.com/e', 'YourLinkedInProfile'),
+            buildExpansionTile('Haseeb Mushtaq', 'Flutter UI & Backend Developer', 'https://github.com/', 'YourLinkedInProfile'),
+            buildExpansionTile('Subhan Ateeq', 'MERN Stack Developer', 'https://github.com/', 'YourLinkedInProfile'),
+            buildExpansionTile('Mohsin Shahid', 'Mobile Developer', 'https://github.com/e', 'YourLinkedInProfile'),
           ],
         ),
       ),
     );
   }
 
-  ExpansionTile buildExpansionTile(String title, String designation,
-      String githubUrl, String linkedinProfile) {
+  ExpansionTile buildExpansionTile(String title, String designation, String githubUrl, String linkedinProfile) {
     return ExpansionTile(
       title: Text(
         title,
@@ -139,8 +128,9 @@ class TeamHierarchyPage extends StatelessWidget {
                 tween: Tween<double>(begin: 0.0, end: 1.0),
                 duration: const Duration(seconds: 1),
                 builder: (context, value, child) {
+                  final double? animationValue = value as double?;
                   return Transform.scale(
-                    scale: value,
+                    scale: animationValue ?? 0.0,
                     child: Container(
                       width: 2,
                       height: 20,
@@ -171,8 +161,9 @@ class TeamHierarchyPage extends StatelessWidget {
                 tween: Tween<double>(begin: 0.0, end: 1.0),
                 duration: const Duration(seconds: 1),
                 builder: (context, value, child) {
+                  final double? animationValue = value as double?;
                   return Transform.scale(
-                    scale: value,
+                    scale: animationValue ?? 0.0,
                     child: Container(
                       width: 2,
                       height: 20,
@@ -193,7 +184,7 @@ class TeamImage extends StatelessWidget {
   final String imagePath;
   final String teamName;
 
-  const TeamImage(this.imagePath, this.teamName);
+  const TeamImage({required this.imagePath, required this.teamName});
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +207,7 @@ class TeamWithBlueLine extends StatelessWidget {
   final String imagePath;
   final String teamName;
 
-  const TeamWithBlueLine(this.imagePath, this.teamName);
+  const TeamWithBlueLine({required this.imagePath, required this.teamName});
 
   @override
   Widget build(BuildContext context) {
@@ -227,8 +218,9 @@ class TeamWithBlueLine extends StatelessWidget {
             tween: Tween<double>(begin: 0.0, end: 1.0),
             duration: const Duration(seconds: 1),
             builder: (context, value, child) {
+              final double? animationValue = value as double?;
               return Transform.scale(
-                scale: value,
+                scale: animationValue ?? 0.0,
                 child: Container(
                   width: 2,
                   height: 20,
@@ -241,8 +233,9 @@ class TeamWithBlueLine extends StatelessWidget {
             tween: Tween<double>(begin: 0.0, end: 1.0),
             duration: const Duration(seconds: 1),
             builder: (context, value, child) {
+              final double? animationValue = value as double?;
               return Transform.scale(
-                scale: value,
+                scale: animationValue ?? 0.0,
                 child: ClipOval(
                   child: Image.asset(imagePath, width: 100, height: 100),
                 ),
@@ -254,8 +247,9 @@ class TeamWithBlueLine extends StatelessWidget {
             tween: Tween<double>(begin: 0.0, end: 1.0),
             duration: const Duration(seconds: 1),
             builder: (context, value, child) {
+              final double? animationValue = value as double?;
               return Transform.scale(
-                scale: value,
+                scale: animationValue ?? 0.0,
                 child: Text(
                   teamName,
                   style: const TextStyle(color: Colors.white),
