@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Dashboard/dashboard.dart';
+
 
 class TeamHierarchyPage extends StatelessWidget {
   @override
@@ -15,167 +15,84 @@ class TeamHierarchyPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           color: Colors.black,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Dashboard(),
-              ),
-            );
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 30), // Increased space
             const Text(
-              'Created by leading experts in ', // Replace with your bold text
+              'Created by leading experts in ',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20, // Adjust the font size as needed
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
-                fontFamily: "Ubuntu",
+                fontFamily: "Montserrat",
               ),
             ),
             const Text(
-              'FAST-NUCES', // Replace with your bold text
+              'FAST-NUCES',
               style: TextStyle(
-                color: Color(0xFFF79817), // #F79817 color
-                fontSize: 20, // Adjust the font size as needed
+                color: Color(0xFFF79817),
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
-                fontFamily: "Ubuntu",
+                fontFamily: "Montserrat",
               ),
             ),
-            const SizedBox(height: 40),
-            const TeamImage(imagePath: 'images/woman.png', teamName: 'Mr. Ali Raza'),
-            const SizedBox(height: 10),
+            const SizedBox(height: 50), // Increased space
+            const TeamImage('images/supervisor.png', 'Mr. Ali Raza'),
+            const SizedBox(height: 20), // Increased space
             Container(
               width: 220,
               height: 2,
-              color: const Color(0xFFF79817), // #F79817 color
+              color: const Color(0xFFF79817),
             ),
-            const SizedBox(height: 0),
+            const SizedBox(height: 20), // Increased space
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TweenAnimationBuilder(
-                  tween: Tween<double>(begin: 0.0, end: 1.0),
-                  duration: const Duration(seconds: 1),
-                  builder: (context, value, child) {
-                    final double? animationValue = value as double?;
-                    return Transform.scale(
-                      scale: animationValue ?? 0.0,
-                      child: const TeamWithBlueLine(imagePath: 'images/woman.png', teamName: 'Haseeb Mushtaq'),
-                    );
-                  },
-                ),
-                TweenAnimationBuilder(
-                  tween: Tween<double>(begin: 0.0, end: 1.0),
-                  duration: const Duration(seconds: 1),
-                  builder: (context, value, child) {
-                    final double? animationValue = value as double?;
-                    return Transform.scale(
-                      scale: animationValue ?? 0.0,
-                      child: const TeamWithBlueLine(imagePath: 'images/woman.png', teamName: 'Subhan Ateeq'),
-                    );
-                  },
-                ),
-                TweenAnimationBuilder(
-                  tween: Tween<double>(begin: 0.0, end: 1.0),
-                  duration: const Duration(seconds: 1),
-                  builder: (context, value, child) {
-                    final double? animationValue = value as double?;
-                    return Transform.scale(
-                      scale: animationValue ?? 0.0,
-                      child: const TeamWithBlueLine(imagePath: 'images/woman.png', teamName: 'Mohsin Shahid'),
-                    );
-                  },
-                ),
+                _buildAnimatedTeamMember('images/haseeb.png', 'Haseeb Mushtaq'),
+                _buildAnimatedTeamMember('images/subhan.png', 'Subhan Arfat'),
+                _buildAnimatedTeamMember('images/mohsin.png', 'Mohsin Shahid'),
               ],
             ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.04,
+            const SizedBox(height: 30), // Adjust as needed
+            const ExpansionTileWidget(
+              title: 'Haseeb Mushtaq',
+              designation: 'Flutter UI & Backend Developer',
+              githubUrl: 'https://github.com/',
+              linkedinProfile: 'YourLinkedInProfile',
             ),
-            buildExpansionTile('Haseeb Mushtaq', 'Flutter UI & Backend Developer', 'https://github.com/', 'YourLinkedInProfile'),
-            buildExpansionTile('Subhan Ateeq', 'MERN Stack Developer', 'https://github.com/', 'YourLinkedInProfile'),
-            buildExpansionTile('Mohsin Shahid', 'Mobile Developer', 'https://github.com/e', 'YourLinkedInProfile'),
+            ExpansionTileWidget(
+              title: 'Subhan Ateeq',
+              designation: 'MERN Stack Developer',
+              githubUrl: 'https://github.com/',
+              linkedinProfile: 'YourLinkedInProfile',
+            ),
+            ExpansionTileWidget(
+              title: 'Mohsin Shahid',
+              designation: 'Mobile Developer',
+              githubUrl: 'https://github.com/e',
+              linkedinProfile: 'YourLinkedInProfile',
+            ),
           ],
         ),
       ),
     );
   }
 
-  ExpansionTile buildExpansionTile(String title, String designation, String githubUrl, String linkedinProfile) {
-    return ExpansionTile(
-      title: Text(
-        title,
-        style: const TextStyle(color: Color(0xFFF79817)), // #F79817 color
-      ),
-      children: [
-        ListTile(
-          title: Text(
-            '-> $designation',
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
-        ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TweenAnimationBuilder(
-                tween: Tween<double>(begin: 0.0, end: 1.0),
-                duration: const Duration(seconds: 1),
-                builder: (context, value, child) {
-                  final double? animationValue = value as double?;
-                  return Transform.scale(
-                    scale: animationValue ?? 0.0,
-                    child: Container(
-                      width: 2,
-                      height: 20,
-                      color: const Color(0xFFF79817), // #F79817 color
-                    ),
-                  );
-                },
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Image.asset(
-                  "images/github.png",
-                  width: 40,
-                  height: 40,
-                  color: const Color(0xFFF79817), // #F79817 color
-                ),
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: () {},
-                child: Image.asset(
-                  "images/linkedin.png",
-                  width: 40,
-                  height: 40,
-                ),
-              ),
-              TweenAnimationBuilder(
-                tween: Tween<double>(begin: 0.0, end: 1.0),
-                duration: const Duration(seconds: 1),
-                builder: (context, value, child) {
-                  final double? animationValue = value as double?;
-                  return Transform.scale(
-                    scale: animationValue ?? 0.0,
-                    child: Container(
-                      width: 2,
-                      height: 20,
-                      color: const Color(0xFFF79817), // #F79817 color
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ],
+  Widget _buildAnimatedTeamMember(String imagePath, String name) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0.0, end: 1.0),
+      duration: const Duration(seconds: 1),
+      builder: (context, double value, child) {
+        return Transform.scale(
+          scale: value,
+          child: child,
+        );
+      },
+      child: TeamWithBlueLine(imagePath, name),
     );
   }
 }
@@ -184,7 +101,7 @@ class TeamImage extends StatelessWidget {
   final String imagePath;
   final String teamName;
 
-  const TeamImage({required this.imagePath, required this.teamName});
+  const TeamImage(this.imagePath, this.teamName);
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +110,7 @@ class TeamImage extends StatelessWidget {
         ClipOval(
           child: Image.asset(imagePath, width: 100, height: 100),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10), // Adjust as needed
         Text(
           teamName,
           style: const TextStyle(color: Colors.white),
@@ -207,55 +124,73 @@ class TeamWithBlueLine extends StatelessWidget {
   final String imagePath;
   final String teamName;
 
-  const TeamWithBlueLine({required this.imagePath, required this.teamName});
+  const TeamWithBlueLine(this.imagePath, this.teamName);
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return Column(
+      children: [
+        ClipOval(
+          child: Image.asset(imagePath, width: 100, height: 100),
+        ),
+        const SizedBox(height: 10), // Adjust as needed
+        Text(
+          teamName,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ],
+    );
+  }
+}
+
+class ExpansionTileWidget extends StatelessWidget {
+  final String title;
+  final String designation;
+  final String githubUrl;
+  final String linkedinProfile;
+
+  const ExpansionTileWidget({
+    Key? key,
+    required this.title,
+    required this.designation,
+    required this.githubUrl,
+    required this.linkedinProfile,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.black,
+      child: ExpansionTile(
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.white),
+        ),
         children: [
-          TweenAnimationBuilder(
-            tween: Tween<double>(begin: 0.0, end: 1.0),
-            duration: const Duration(seconds: 1),
-            builder: (context, value, child) {
-              final double? animationValue = value as double?;
-              return Transform.scale(
-                scale: animationValue ?? 0.0,
-                child: Container(
-                  width: 2,
-                  height: 20,
-                  color: const Color(0xFFF79817), // #F79817 color
-                ),
-              );
-            },
+          ListTile(
+            title: Text(
+              '-> $designation',
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
-          TweenAnimationBuilder(
-            tween: Tween<double>(begin: 0.0, end: 1.0),
-            duration: const Duration(seconds: 1),
-            builder: (context, value, child) {
-              final double? animationValue = value as double?;
-              return Transform.scale(
-                scale: animationValue ?? 0.0,
-                child: ClipOval(
-                  child: Image.asset(imagePath, width: 100, height: 100),
+          ListTile(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "images/github.png",
+                  width: 40,
+                  height: 40,
+                  color: const Color(0xFFF79817),
                 ),
-              );
-            },
-          ),
-          const SizedBox(height: 8),
-          TweenAnimationBuilder(
-            tween: Tween<double>(begin: 0.0, end: 1.0),
-            duration: const Duration(seconds: 1),
-            builder: (context, value, child) {
-              final double? animationValue = value as double?;
-              return Transform.scale(
-                scale: animationValue ?? 0.0,
-                child: Text(
-                  teamName,
-                  style: const TextStyle(color: Colors.white),
+                const SizedBox(width: 10), // Adjust as needed
+                Image.asset(
+                  "images/linkedin.png",
+                  width: 40,
+                  height: 40,
                 ),
-              );
-            },
+              ],
+            ),
           ),
         ],
       ),

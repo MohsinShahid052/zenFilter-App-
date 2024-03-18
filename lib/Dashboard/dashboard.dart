@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import '/pages/customerSupport.dart';
-import "../onBoardingScreens/onBoarding.dart";
 import 'package:zenFilter/login_signup/loginPage.dart';
-import '../pages/settings.dart';
-import '../pages/about.dart';
+import 'package:zenFilter/pages/settings.dart';
+import "package:zenFilter/pages/about.dart";
+import "package:zenFilter/pages/preferences.dart";
+import "package:zenFilter/pages/website_Block.dart";
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import "package:zenFilter/screens/home.dart";
+import 'package:zenFilter/pages/customerSupport.dart';
+import "package:zenFilter/appstats/stat_screen.dart";
+
+// Initialize the Firebase app
+final FirebaseDatabase database = FirebaseDatabase.instance;
+// Access the database reference
+final DatabaseReference dbRef = database.reference();
 
 class Dashboard extends StatefulWidget {
   @override
@@ -15,17 +26,17 @@ class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
 
   final List<String> imgSrc = [
-    "assets/images/p3.png",
-    "assets/images/history.png",
-    "assets/images/web.png",
-    "assets/images/phone.png",
-    "assets/images/help.png",
-    "assets/images/about.png",
+    "images/p3.png",
+    "images/history.png",
+    "images/web.png",
+    "images/phone.png",
+    "images/help.png",
+    "images/about.png",
   ];
 
   final List<String> imgNames = [
     "Preferences",
-    "History",
+    "App Stats",
     "Block Web",
     "Block App",
     "Help",
@@ -52,7 +63,7 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  fontFamily: "Ubuntu",
+                  fontFamily: "Montserrat",
                   color: Color.fromARGB(255, 10, 10, 10),
                 ),
               ),
@@ -87,20 +98,20 @@ class _DashboardState extends State<Dashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "AlamBinary01",
+                            "ZenFilter",
                             style: TextStyle(
                               fontSize: 18,
                               color: Color.fromARGB(255, 0, 0, 0),
                               fontWeight: FontWeight.bold,
-                              fontFamily: "Ubuntu",
+                              fontFamily: "Montserrat",
                             ),
                           ),
                           Text(
-                            "alambinary011@gmial.com",
+                            "Zenfilter.Software@gmail.com",
                             style: TextStyle(
                               fontSize: 14,
                               color: Color.fromARGB(255, 0, 0, 0),
-                              fontFamily: "Ubuntu",
+                              fontFamily: "Montserrat",
                             ),
                           ),
                         ],
@@ -111,15 +122,24 @@ class _DashboardState extends State<Dashboard> {
                         Icons.logout,
                         color: Colors.black,
                       ),
-                      onPressed: () {
-                        // Navigate to the login page
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                LoginPage(), // Replace LoginPage with your actual login page
-                          ),
-                        );
+                      onPressed: () async {
+                        try {
+                          await FirebaseAuth.instance.signOut();
+                          // Show a SnackBar with the logout message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Logged out successfully'),
+                            ),
+                          );
+                          // Redirect to the login or home screen after logging out
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        } catch (e) {
+                          print('Error logging out: $e');
+                        }
                       },
                     ),
                   ],
@@ -156,7 +176,31 @@ class _DashboardState extends State<Dashboard> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Onboarding(),
+                                  builder: (context) =>const Preferences(),
+                                ),
+                              );
+                            }
+                            if (imgNames[index] == "App Stats") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StatsScreen(),
+                                ),
+                              );
+                            }
+                            if (imgNames[index] == "Block Web") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BlockWebsitePage(),
+                                ),
+                              );
+                            }
+                            if (imgNames[index] == "Block App") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
                                 ),
                               );
                             }
@@ -169,7 +213,12 @@ class _DashboardState extends State<Dashboard> {
                               );
                             }
                             if (imgNames[index] == "Help") {
-                              print("Help");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomerSupport(),
+                                ),
+                              );
                             }
                           },
                           child: Container(
@@ -198,7 +247,7 @@ class _DashboardState extends State<Dashboard> {
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "Ubuntu",
+                                    fontFamily: "Montserrat",
                                   ),
                                 ),
                               ],
@@ -222,6 +271,15 @@ class _DashboardState extends State<Dashboard> {
         onTap: (int index) {
           setState(() {
             _currentIndex = index;
+            if (_currentIndex == 1) {
+              // Navigate to the dailyReport page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>StatsScreen (),
+                ),
+              );
+            }
             if (_currentIndex == 2) {
               // Navigate to the Settings page
               Navigator.push(
@@ -235,7 +293,7 @@ class _DashboardState extends State<Dashboard> {
         },
         items: const [
           Icon(Icons.home, size: 30),
-          Icon(Icons.block, size: 30),
+          Icon(Icons.bar_chart, size: 30),
           Icon(Icons.settings, size: 30),
         ],
       ),

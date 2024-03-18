@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_settings_screen_ex/flutter_settings_screen_ex.dart';
-import "./settingPages/reportBug.dart";
-import './settingPages/accountPage.dart';
+import "settingPages/reportBug.dart";
+import 'settingPages/accountPage.dart';
 import '../Dashboard/dashboard.dart';
-import '../pages/settingPages/reportBug.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key});
@@ -14,6 +13,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool isDarkMode = false;
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -22,6 +22,7 @@ class _SettingPageState extends State<SettingPage> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Montserrat', // Set font family to Montserrat
               color: isDarkMode ? const Color(0xFFF79817) : Colors.black,
             ),
           ),
@@ -71,6 +72,7 @@ class _SettingPageState extends State<SettingPage> {
           ),
         ),
       );
+
   Widget buildDarkModeSwitch() {
     return ListTile(
       title: Text(
@@ -108,6 +110,7 @@ class _SettingPageState extends State<SettingPage> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
+            fontFamily: 'Montserrat', // Set font family to Montserrat
             color: isDarkMode ? const Color(0xFFF79817) : Colors.black,
           ),
         ),
@@ -143,6 +146,7 @@ class _SettingPageState extends State<SettingPage> {
               builder: (context) => ReportBug(),
             ),
           ));
+
   Widget buildSendFeedback(BuildContext context) => SimpleSettingsTile(
         title: "Send Feedback",
         subtitle: '',

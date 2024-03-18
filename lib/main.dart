@@ -3,7 +3,9 @@ import 'package:zenFilter/services/init.dart';
 import 'package:zenFilter/services/themes.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter/foundation.dart';
-import "package:zenFilter/login_signup/splashScreen.dart";
+// import "package:zenFilter/login_signup/splashScreen.dart";
+// import "package:zenFilter/Dashboard/dashboard.dart";
+import "package:zenFilter/onBoardingScreens/onBoarding.dart";
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.dark,
-      home: SplashScreen(),
+      home: Onboarding(),
     );
   }
 }
