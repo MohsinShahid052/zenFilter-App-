@@ -8,7 +8,7 @@ class ReportBug extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Report a Bug',
       theme: ThemeData(
-        fontFamily: "Montserrat",
+        fontFamily: "Ubuntu",
         scaffoldBackgroundColor: Colors.black, // Set background color to black
         textTheme: const TextTheme(
           bodyText2: TextStyle(color: Colors.white), // Set text color to white
@@ -89,6 +89,10 @@ class _MyFormState extends State<MyForm> {
                             print('Form submitted');
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.orange, // Set background color to orange
+                        ),
                         child: Text(
                           'Submit',
                           style: TextStyle(

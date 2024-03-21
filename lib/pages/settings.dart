@@ -1,204 +1,143 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_screen_ex/flutter_settings_screen_ex.dart';
-import "settingPages/reportBug.dart";
-import 'settingPages/accountPage.dart';
-import '../Dashboard/dashboard.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zenFilter/login_signup/loginPage.dart';
+import 'package:zenFilter/forgotPassword/forgotPassword.dart';
+import 'package:zenFilter/forgotPassword/changePassword.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({Key? key});
+  const SettingPage({Key? key}) : super(key: key);
 
   @override
   State<SettingPage> createState() => _SettingPageState();
 }
 
 class _SettingPageState extends State<SettingPage> {
-  bool isDarkMode = false;
+  String? _userImagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserImage();
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      await _saveUserImagePath(pickedFile.path);
+      setState(() {
+        _userImagePath = pickedFile.path;
+      });
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future<void> _saveUserImagePath(String path) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userImagePath', path);
+  }
+
+  Future<void> _loadUserImage() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userImagePath = prefs.getString('userImagePath');
+    });
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(
-            "Settings",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Montserrat', // Set font family to Montserrat
-              color: isDarkMode ? const Color(0xFFF79817) : Colors.black,
-            ),
+          title: const Text('Settings',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          backgroundColor: const Color(0xFFF79817),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back,
+                color: Color.fromARGB(255, 7, 7, 7)),
+            onPressed: () => Navigator.of(context).pop(),
           ),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: isDarkMode ? const Color(0xFFF79817) : Colors.black,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Dashboard(),
-                ),
-              );
-            },
-          ),
         ),
         body: SafeArea(
-          child: Container(
-            color: isDarkMode ? Colors.black : Colors.white,
-            child: ListView(
-              padding: const EdgeInsets.all(24),
-              children: [
-                buildUserHeader(),
-                SettingsGroup(
-                  title: "General",
-                  children: <Widget>[
-                    // buildDarkModeSwitch(),
-                    const accountPage(),
-                    buildLogout(context),
-                    buildDeleteAccount(context),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                SettingsGroup(
-                  title: "Feedback",
-                  children: <Widget>[
-                    const SizedBox(height: 8),
-                    buildReportBug(context),
-                    buildSendFeedback(context),
-                  ],
-                ),
-              ],
-            ),
+          child: ListView(
+            padding: const EdgeInsets.all(24),
+            children: [
+              GestureDetector(
+                onTap: _pickImage,
+                child: buildUserHeader(),
+              ),
+              buildSettingsItem(
+                  context, "Change Password", Icons.password, _changePassword),
+              buildSettingsItem(context, "Logout", Icons.logout, _logout),
+              buildSettingsItem(context, "Delete Account", Icons.delete_forever,
+                  _deleteAccount),
+              buildSettingsItem(context, "Report a Bug/Feedback",
+                  Icons.bug_report, _reportBug),
+            ],
           ),
         ),
       );
 
-  Widget buildDarkModeSwitch() {
-    return ListTile(
-      title: Text(
-        "Dark Mode",
-        style: TextStyle(
-          color: isDarkMode ? const Color(0xFFF79817) : Colors.black,
-        ),
-      ),
-      trailing: Switch(
-        value: isDarkMode,
-        onChanged: (value) {
-          setState(() {
-            isDarkMode = value;
-          });
-        },
-      ),
-    );
-  }
-
   Widget buildUserHeader() {
-    final String username = "Haseeb Mushtaq";
-    final String email = "f200316@cfd.nu.edu.pk";
-    final String userImagePath = "images/woman.png";
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    final String email = currentUser?.email ?? "No email available";
+    ImageProvider backgroundImage;
+
+    if (_userImagePath != null) {
+      backgroundImage = FileImage(File(_userImagePath!));
+    } else {
+      // Make sure to replace 'images/default_user.png' with an actual path in your assets
+      backgroundImage = const AssetImage("images/woman.png");
+    }
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CircleAvatar(
           radius: 50,
-          backgroundImage: AssetImage(userImagePath),
+          backgroundImage: backgroundImage,
         ),
         const SizedBox(height: 16),
-        Text(
-          username,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Montserrat', // Set font family to Montserrat
-            color: isDarkMode ? const Color(0xFFF79817) : Colors.black,
-          ),
-        ),
-        Text(
-          email,
-          style: const TextStyle(fontSize: 14, color: Colors.grey),
-        ),
+        Text("ZenFilter User",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(email, style: TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 24),
       ],
     );
   }
 
-  Widget buildLogout(BuildContext context) => SimpleSettingsTile(
-        title: "Logout",
-        subtitle: '',
-        leading: const Icon(Icons.logout, color: Colors.black),
-        onTap: () => showSnackBar(context, "Clicked Logout"),
-      );
-
-  Widget buildDeleteAccount(BuildContext context) => SimpleSettingsTile(
-        title: "Delete Account",
-        subtitle: '',
-        leading: const Icon(Icons.delete, color: Colors.black),
-        onTap: () => showSnackBar(context, "Clicked Delete Account"),
-      );
-
-  Widget buildReportBug(BuildContext context) => SimpleSettingsTile(
-      title: "Report a bug",
-      subtitle: '',
-      leading: const Icon(Icons.bug_report, color: Colors.black),
-      onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ReportBug(),
-            ),
-          ));
-
-  Widget buildSendFeedback(BuildContext context) => SimpleSettingsTile(
-        title: "Send Feedback",
-        subtitle: '',
-        leading: const Icon(Icons.thumb_up, color: Colors.black),
-        onTap: () => showFeedbackDialog(context),
-      );
-
-  void showFeedbackDialog(BuildContext context) {
-    double dialogHeight = MediaQuery.of(context).size.height * 0.5;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Feedback"),
-          contentPadding:
-              const EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
-          content: Container(
-            height: dialogHeight,
-            child: Column(
-              children: [
-                ListTile(
-                  dense: true,
-                  title: const Text("Good"),
-                  leading: const Icon(Icons.thumb_up, color: Colors.green),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    showSnackBar(context, "Good feedback submitted");
-                  },
-                ),
-                ListTile(
-                  dense: true,
-                  title: const Text("Bad"),
-                  leading: const Icon(Icons.thumb_down, color: Colors.red),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    showSnackBar(context, "Bad feedback submitted");
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+  Widget buildSettingsItem(
+      BuildContext context, String title, IconData icon, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.white),
+      title: Text(title, style: const TextStyle(color: Colors.white)),
+      onTap: onTap,
     );
   }
 
-  void showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
+  void _changePassword() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ChangePassword()),
     );
+    print("Change Password Tapped");
+  }
+
+  void _logout() async {
+    // Placeholder function for logging out
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pop(MaterialPageRoute(builder: (context) => LoginPage()));
+  }
+
+  void _deleteAccount() {
+    print("Delete Account Tapped");
+  }
+
+  void _reportBug() {
+    print("Report a Bug/Feedback Tapped");
   }
 }

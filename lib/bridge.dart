@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zenFilter/internetConnect/InternetConnection.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zenFilter/login_signup/loginPage.dart';
-
+import 'package:zenFilter/internetConnect/adblocker.dart';
 
 class BridgeOfApp extends StatelessWidget {
   @override
@@ -9,36 +9,34 @@ class BridgeOfApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor:
-            Colors.black, // Sets the background color of the Scaffold
+        backgroundColor: Colors.black,
         body: Center(
-          child: GridView.count(
-            crossAxisCount: 2,
+          child: ListView(
             shrinkWrap: true,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 20,
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(40), // Increase the padding
             children: <Widget>[
               _buildCard(
                 context,
-                icon: Icons.web,
-                color: Colors.blue,
+                title: 'Safe Browser',
+                animationPath: 'assets/animationAsset/browser.json',
+                color: const Color(0xFFF79817),
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => InternetConnectivityScreen()),
+                  MaterialPageRoute(builder: (context) => SiteBlockerWebView()),
                 ),
-                title: 'Browser',
+                
               ),
               _buildCard(
+                
                 context,
-                icon: Icons.login,
-                color: Colors.green,
+                title: 'Login',
+                animationPath: 'assets/animationAsset/login.json',
+                color: const Color(0xFFF79817),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 ),
-                title: 'Login',
+                
               ),
             ],
           ),
@@ -48,27 +46,31 @@ class BridgeOfApp extends StatelessWidget {
   }
 
   Widget _buildCard(BuildContext context,
-      {required IconData icon,
+      {required String animationPath,
       required Color color,
       required Function() onTap,
       required String title}) {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.grey[
-            900], // Makes the card background blend better with the app's background
+        color: Colors.grey[900],
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(icon, size: 80, color: color),
-            SizedBox(height: 10),
+            const SizedBox(height: 20),
+            // Reduce the width of the Lottie animation
+            Lottie.asset(animationPath,
+                width: 160, height: 160, fit: BoxFit.fill),
+            const SizedBox(height: 20),
             Text(
               title,
               style: TextStyle(
+                fontFamily: 'Montserrat',
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: color,
@@ -79,4 +81,5 @@ class BridgeOfApp extends StatelessWidget {
       ),
     );
   }
+  
 }

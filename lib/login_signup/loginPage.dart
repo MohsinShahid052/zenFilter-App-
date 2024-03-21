@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:zenFilter/config/palette.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zenFilter/Config/Palette.dart';
 import 'package:zenFilter/forgotPassword/forgotPassword.dart';
-import "package:zenFilter/login_signup/SignupPage.dart";
+import 'package:zenFilter/Login_signup/SignupPage.dart';
+import 'package:zenFilter/firebaseAuthentication/firebaseAuth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import "package:zenFilter/Dashboard/dashboard.dart";
 
 class ForgotPasswordBtnWidget extends StatelessWidget {
   const ForgotPasswordBtnWidget({
@@ -33,18 +37,8 @@ class ForgotPasswordBtnWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: 'Montserrat', // Set font family to Montserrat
-                  ),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontFamily: 'Montserrat', // Set font family to Montserrat
-                  ),
-                ),
+                Text(title),
+                Text(subtitle),
               ],
             ),
           ],
@@ -60,6 +54,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool isSigning = false;
@@ -83,9 +81,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: TextField(
         controller: controller,
-        style: const TextStyle(
-            color: Palette.textColor1,
-            fontFamily: 'Montserrat'), // Set font family to Montserrat
+        style: TextStyle(color: Palette.textColor1),
         obscureText: isPassword && !isPasswordVisible,
         keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
         decoration: InputDecoration(
@@ -106,24 +102,22 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 )
               : null,
-          enabledBorder:const  OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Palette.textColor1),
             borderRadius: BorderRadius.all(Radius.circular(35.0)),
           ),
-          focusedBorder:const OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Palette.textColor1),
             borderRadius: BorderRadius.all(Radius.circular(35.0)),
           ),
-          contentPadding:const EdgeInsets.all(10),
+          contentPadding: EdgeInsets.all(10),
           hintText: hintText,
-          hintStyle:const TextStyle(
-              fontSize: 14,
-              color: Palette.textColor1,
-              fontFamily: 'Montserrat'), // Set font family to Montserrat
+          hintStyle: TextStyle(fontSize: 14, color: Palette.textColor1),
         ),
       ),
     );
   }
+
 
   Widget buildBottomHalfContainer(bool showShadow) {
     return GestureDetector(
@@ -134,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
           width: 150,
           padding: const EdgeInsets.only(top: 2),
           decoration: BoxDecoration(
-            gradient:const LinearGradient(
+            gradient: LinearGradient(
               colors: [Colors.orange, Colors.red],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -146,11 +140,11 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.black.withOpacity(.3),
                   spreadRadius: 1,
                   blurRadius: 2,
-                  offset:const Offset(0, 1),
+                  offset: Offset(0, 1),
                 ),
             ],
           ),
-          child:const Icon(
+          child: Icon(
             Icons.arrow_forward,
             color: Colors.white,
           ),
@@ -168,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+    if (!RegExp(r'^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$').hasMatch(email)) {
       _showErrorMessage('Please enter a valid email address.');
       return;
     }
@@ -178,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // _login();
+    _login();
   }
 
   void _showErrorMessage(String errorMessage) {
@@ -188,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.black, // Setting background color
-            title:const Text(
+            title: Text(
               'Error',
               style: TextStyle(
                   color: const Color(0xFFF79817)), // Setting text color
@@ -215,9 +209,38 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+
+  void _login() async {
+    setState(() {
+      isSigning = true;
+    });
+
+    String email = _emailTextController.text;
+    String password = _passwordController.text;
+    print("the email is:${ email}");
+
+    User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+    setState(() {
+      isSigning = false;
+    });
+
+    if (user != null) {
+      print("User is successfully LogIn");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Dashboard()), // Replace YourHomePage with your intended home page
+      );
+    } else {
+      _showErrorMessage("Credential is not Valid");
+    }
+  }
+
   Container SignInSection() {
     return Container(
-      margin:const EdgeInsets.only(top: 20),
+      margin: EdgeInsets.only(top: 20),
       child: Column(
         children: [
           buildLoginTextField(Icons.email, 'Email', false, isEmail: true),
@@ -245,11 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                   buildBottomSheet(context);
                 },
                 child: Text('Forget Password?',
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Palette.textColor1,
-                        fontFamily:
-                            'Montserrat')), // Set font family to Montserrat
+                    style: TextStyle(fontSize: 12, color: Palette.textColor1)),
               )
             ],
           )
@@ -295,23 +314,19 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     RichText(
                       text: TextSpan(
-                        text: "Welcome ",
+                        text: "Welcome to ",
                         style: TextStyle(
                           fontSize: 25,
                           letterSpacing: 2,
                           color: const Color(0xFFF79817),
-                          fontFamily:
-                              'Montserrat', // Set font family to Montserrat
                         ),
                         children: [
                           TextSpan(
-                            text: " Back,",
+                            text: "Zenfilter ",
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFFF79817),
-                              fontFamily:
-                                  'Montserrat', // Set font family to Montserrat
                             ),
                           )
                         ],
@@ -325,8 +340,6 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         letterSpacing: 1,
                         color: Colors.white,
-                        fontFamily:
-                            'Montserrat', // Set font family to Montserrat
                       ),
                     )
                   ],
@@ -366,8 +379,6 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFFF79817),
-                                fontFamily:
-                                    'Montserrat', // Set font family to Montserrat
                               ),
                             ),
                             Container(
@@ -407,8 +418,6 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         color: Color.fromARGB(255, 10, 10, 10),
                         fontSize: 16,
-                        fontFamily:
-                            'Montserrat', // Set font family to Montserrat
                       )),
                 ),
                 Container(
@@ -416,10 +425,9 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      buildTextButton(
-                          Icons.facebook, "Facebook", Palette.facebookColor),
-                      buildTextButton(
-                          'images/google.png', "Google", Color(0xFFDE4B39)),
+                      // buildTextButton(Icons.facebook, "Facebook", Palette.facebookColor),
+                      // buildTextButton('images/google.png', "Google", Color(0xFFDE4B39)),
+                      buildGoogleSignInButton(context),
                     ],
                   ),
                 ),
@@ -431,41 +439,97 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget buildTextButton(dynamic icon, String title, Color backgroundColor) {
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken,
+        );
+
+        await _firebaseAuth.signInWithCredential(credential);
+        // Redirect to the home screen after signing in
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  Dashboard()), // Replace with your DashboardPage
+        );
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error signing in with Google: $e'),
+        ),
+      );
+    }
+  }
+
+  Widget buildGoogleSignInButton(BuildContext context) {
     return TextButton(
-      onPressed: () => {print("Hello world")},
+      onPressed: () => _signInWithGoogle(context),
       style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
         side: BorderSide(width: 1, color: Colors.grey),
         minimumSize: Size(145, 40),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        // primary: Colors.white,
-        backgroundColor: backgroundColor,
+        backgroundColor: Colors.red, // Set your desired background color
       ),
       child: Row(
         children: [
-          if (icon is IconData) // Check if the icon is an IconData
-            Icon(
-              icon,
-            ),
-          if (icon
-              is String) // Check if the icon is a String (assumed to be an asset path)
-            Image.asset(
-              icon,
-              width: 30, // Adjust width and height as needed
-              height: 25,
-              // Other properties as required for the image-based icon
-            ),
+          Image.asset(
+            'images/google.png', // Replace with your Google logo asset path
+            width: 24, // Adjust width as needed
+            height: 24, // Adjust height as needed
+            // Other properties for the image
+          ),
           SizedBox(width: 5),
           Text(
-            title,
-            style: TextStyle(
-              fontFamily: 'Montserrat', // Set font family to Montserrat
-            ),
+            'Sign in with Google',
           ),
         ],
       ),
     );
   }
+
+// Widget buildTextButton(dynamic icon, String title, Color backgroundColor) {
+//   return TextButton(
+//     onPressed: () => main(),
+//     style: TextButton.styleFrom(
+//       side: BorderSide(width: 1, color: Colors.grey),
+//       minimumSize: Size(145, 40),
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+//       primary: Colors.white,
+//       backgroundColor: backgroundColor,
+//     ),
+//     child: Row(
+//       children: [
+//         if (icon is IconData) // Check if the icon is an IconData
+//           Icon(
+//             icon,
+//           ),
+//         if (icon is String) // Check if the icon is a String (assumed to be an asset path)
+//           Image.asset(
+//             icon,
+//             width:30, // Adjust width and height as needed
+//             height: 25,
+//             // Other properties as required for the image-based icon
+//           ),
+//         SizedBox(width: 5),
+//         Text(
+//           title,
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
   Future<dynamic> buildBottomSheet(BuildContext context) {
     return showModalBottomSheet(
@@ -478,7 +542,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Make Selection!",
+              "Select!",
               style: Theme.of(context).textTheme.headline2!.copyWith(
                   color: const Color(0xFFF79817)), // Set text color to orange
             ),

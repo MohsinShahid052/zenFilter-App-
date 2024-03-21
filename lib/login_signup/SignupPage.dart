@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:zenFilter/config/palette.dart';
-import "package:zenFilter/forgotPassword/forgotPassword.dart";
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import "package:zenFilter/config/palette.dart";
+import 'package:zenFilter/Dashboard/dashboard.dart';
+import 'package:zenFilter/forgotPassword/forgotPassword.dart';
 import 'package:zenFilter/login_signup/loginPage.dart';
+import 'package:zenFilter/firebaseAuthentication/firebaseAuth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -10,14 +15,16 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  // final FirebaseAuthService _auth = FirebaseAuthService();
-
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   bool isSigningUp = false;
 
+  final databaseReference = FirebaseDatabase.instance.ref('User Details');
   bool isPasswordVisible = false;
   bool isRememberMe = false;
 
@@ -126,7 +133,7 @@ class _SignupPageState extends State<SignupPage> {
       return;
     }
 
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+    if (!RegExp(r'^[a-z0-9](\.?[a-z0-9]){5,}@gmail\.com$').hasMatch(email)) {
       _showErrorMessage('Please enter a valid email address.');
       return;
     }
@@ -136,7 +143,7 @@ class _SignupPageState extends State<SignupPage> {
       return;
     }
 
-    // _signUp();
+    _signUp();
   }
 
   void _showErrorMessage(String errorMessage) {
@@ -179,41 +186,36 @@ class _SignupPageState extends State<SignupPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            // AlertDialog content for success message
-            // Similar to the error message dialog, but display success message
             );
       },
     );
   }
 
-  // void _signUp() async {
-  //   setState(() {
-  //     isSigningUp = true;
-  //   });
+  void _signUp() async {
+  try {
+    String username = _usernameController.text;
+    String email = _emailTextController.text;
+    String password = _passwordController.text;
+    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    String userId = userCredential.user!.uid;
+    DatabaseReference userRef = FirebaseDatabase.instance.reference().child('Users').child(userId);
+    userRef.set({
+      'username': username,
+      'email': email,
+      'password': password,
+    });
 
-  //   String username = _usernameController.text;
-  //   String email = _emailTextController.text;
-  //   String password = _passwordController.text;
-
-  //   User? user = await _auth.signUpWithEmailAndPassword(email, password);
-
-  //   setState(() {
-  //     isSigningUp = false;
-  //   });
-
-  //   if (user != null) {
-  //     print("User is successfully created");
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (context) =>
-  //               LoginPage()), // Replace YourHomePage with your intended home page
-  //     );
-  //   } else {
-  //     print("Some error happened");
-  //   }
-  // }
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()), // Replace LoginPage with your desired page
+    );
+  } catch (e) {
+    print('Error signing up: $e');
+  }
+}
   Container SignupSection() {
     return Container(
       margin: EdgeInsets.only(top: 20),
@@ -226,84 +228,6 @@ class _SignupPageState extends State<SignupPage> {
               isEmail: true),
           buildLoginTextField(
               Icons.lock, 'Password', _passwordController, true),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 10, left: 10),
-          //   child: Row(
-          //     children: [
-          //       GestureDetector(
-          //         onTap: () {
-          //           setState(() {
-          //             isMale = true;
-          //           });
-          //         },
-          //         child: Row(
-          //           children: [
-          //             Container(
-          //               width: 30,
-          //               height: 30,
-          //               margin: EdgeInsets.only(right: 8),
-          //               decoration: BoxDecoration(
-          //                   color: isMale
-          //                       ? Palette.textColor2
-          //                       : Colors.transparent,
-          //                   border: Border.all(
-          //                       width: 1,
-          //                       color: isMale
-          //                           ? Colors.transparent
-          //                           : Palette.textColor1),
-          //                   borderRadius: BorderRadius.circular(15)),
-          //               child: Icon(
-          //                 Icons.account_circle_outlined,
-          //                 color: isMale ? Colors.white : Palette.iconColor,
-          //               ),
-          //             ),
-          //             Text(
-          //               "Male",
-          //               style: TextStyle(color: Palette.textColor1),
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //       SizedBox(
-          //         width: 30,
-          //       ),
-          //       GestureDetector(
-          //         onTap: () {
-          //           setState(() {
-          //             isMale = false;
-          //           });
-          //         },
-          //         child: Row(
-          //           children: [
-          //             Container(
-          //               width: 30,
-          //               height: 30,
-          //               margin: EdgeInsets.only(right: 8),
-          //               decoration: BoxDecoration(
-          //                   color: isMale
-          //                       ? Colors.transparent
-          //                       : Palette.textColor2,
-          //                   border: Border.all(
-          //                       width: 1,
-          //                       color: isMale
-          //                           ? Palette.textColor1
-          //                           : Colors.transparent),
-          //                   borderRadius: BorderRadius.circular(15)),
-          //               child: Icon(
-          //                 Icons.account_circle_outlined,
-          //                 color: isMale ? Palette.iconColor : Colors.white,
-          //               ),
-          //             ),
-          //             Text(
-          //               'Female',
-          //               style: TextStyle(color: Palette.textColor1),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Container(
             width: 200,
             margin: EdgeInsets.only(top: 10),
@@ -326,11 +250,6 @@ class _SignupPageState extends State<SignupPage> {
       ),
     );
   }
-
-//  bool isValidEmail(String email) {
-//   final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-//   return emailRegex.hasMatch(email);
-// }
 
   @override
   Widget build(BuildContext context) {
@@ -462,8 +381,6 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // Define your navigation logic to go to the signup page here
-                    // For example:
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => LoginPage()),
@@ -479,10 +396,7 @@ class _SignupPageState extends State<SignupPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      buildTextButton(
-                          Icons.facebook, "Facebook", Palette.facebookColor),
-                      buildTextButton(
-                          'images/google.png', "Google", Color(0xFFDE4B39)),
+                      buildGoogleSignInButton(context),
                     ],
                   ),
                 ),
@@ -494,33 +408,65 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  Widget buildTextButton(dynamic icon, String title, Color backgroundColor) {
+  Future<void> _signInWithGoogle(BuildContext context) async {
+  try {
+    final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication.accessToken,
+      );
+
+      final UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Dashboard()), 
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Sign-in with Google failed'),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Sign-in with Google cancelled'),
+      ));
+    }
+  } catch (e) {
+    print('Error signing in with Google: $e');
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Error signing in with Google: $e'),
+    ));
+  }
+}
+
+  Widget buildGoogleSignInButton(BuildContext context) {
     return TextButton(
-      onPressed: () => {print("Hello World!!")},
+      onPressed: () => _signInWithGoogle(context),
       style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
         side: BorderSide(width: 1, color: Colors.grey),
         minimumSize: Size(145, 40),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        // primary: Colors.white,
-        backgroundColor: backgroundColor,
+        backgroundColor: Colors.red, // Set your desired background color
       ),
       child: Row(
         children: [
-          if (icon is IconData) // Check if the icon is an IconData
-            Icon(
-              icon,
-            ),
-          if (icon
-              is String) // Check if the icon is a String (assumed to be an asset path)
-            Image.asset(
-              icon,
-              width: 30, // Adjust width and height as needed
-              height: 25,
-              // Other properties as required for the image-based icon
-            ),
+          Image.asset(
+            'images/google.png', // Replace with your Google logo asset path
+            width: 24, // Adjust width as needed
+            height: 24, // Adjust height as needed
+            // Other properties for the image
+          ),
           SizedBox(width: 5),
           Text(
-            title,
+            'Sign in with Google',
           ),
         ],
       ),

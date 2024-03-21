@@ -1,5 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart'; // Adjust the import path as necessary
 
 class TeamHierarchyPage extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class TeamHierarchyPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 30), // Increased space
+            const SizedBox(height: 30),
             const Text(
               'Created by leading experts in ',
               style: TextStyle(
@@ -40,59 +41,47 @@ class TeamHierarchyPage extends StatelessWidget {
                 fontFamily: "Montserrat",
               ),
             ),
-            const SizedBox(height: 50), // Increased space
+            const SizedBox(height: 50),
             const TeamImage('images/supervisor.png', 'Mr. Ali Raza'),
-            const SizedBox(height: 20), // Increased space
+            const SizedBox(height: 20),
             Container(
               width: 220,
               height: 2,
               color: const Color(0xFFF79817),
             ),
-            const SizedBox(height: 20), // Increased space
-            Row(
+            const SizedBox(height: 20),
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildAnimatedTeamMember('images/haseeb.png', 'Haseeb Mushtaq'),
-                _buildAnimatedTeamMember('images/subhan.png', 'Subhan Arfat'),
-                _buildAnimatedTeamMember('images/mohsin.png', 'Mohsin Shahid'),
+                TeamImage('images/haseeb.png', 'Haseeb Mushtaq'),
+                TeamImage('images/subhan.png', 'Subhan Arfat'),
+                TeamImage('images/mohsin.png', 'Mohsin Shahid'),
               ],
             ),
-            const SizedBox(height: 30), // Adjust as needed
+            const SizedBox(height: 30),
             const ExpansionTileWidget(
               title: 'Haseeb Mushtaq',
               designation: 'Flutter UI & Backend Developer',
-              githubUrl: 'https://github.com/',
-              linkedinProfile: 'YourLinkedInProfile',
+              githubUrl: 'https://github.com/AlamBinary01',
+              linkedinProfile: 'https://www.linkedin.com/in/alambinary01/',
             ),
-            ExpansionTileWidget(
+            const ExpansionTileWidget(
               title: 'Subhan Ateeq',
               designation: 'MERN Stack Developer',
-              githubUrl: 'https://github.com/',
-              linkedinProfile: 'YourLinkedInProfile',
+              githubUrl: 'https://github.com/subhan-a19',
+              linkedinProfile:
+                  "https://www.linkedin.com/in/subhan-attique-48a7a8274/",
             ),
-            ExpansionTileWidget(
+            const ExpansionTileWidget(
               title: 'Mohsin Shahid',
               designation: 'Mobile Developer',
-              githubUrl: 'https://github.com/e',
-              linkedinProfile: 'YourLinkedInProfile',
+              githubUrl: 'https://github.com/MohsinShahid052',
+              linkedinProfile:
+                  'https://www.linkedin.com/in/mohsin-shahid-7a321b264/',
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildAnimatedTeamMember(String imagePath, String name) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0.0, end: 1.0),
-      duration: const Duration(seconds: 1),
-      builder: (context, double value, child) {
-        return Transform.scale(
-          scale: value,
-          child: child,
-        );
-      },
-      child: TeamWithBlueLine(imagePath, name),
     );
   }
 }
@@ -110,30 +99,7 @@ class TeamImage extends StatelessWidget {
         ClipOval(
           child: Image.asset(imagePath, width: 100, height: 100),
         ),
-        const SizedBox(height: 10), // Adjust as needed
-        Text(
-          teamName,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ],
-    );
-  }
-}
-
-class TeamWithBlueLine extends StatelessWidget {
-  final String imagePath;
-  final String teamName;
-
-  const TeamWithBlueLine(this.imagePath, this.teamName);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ClipOval(
-          child: Image.asset(imagePath, width: 100, height: 100),
-        ),
-        const SizedBox(height: 10), // Adjust as needed
+        const SizedBox(height: 10),
         Text(
           teamName,
           style: const TextStyle(color: Colors.white),
@@ -157,6 +123,14 @@ class ExpansionTileWidget extends StatelessWidget {
     required this.linkedinProfile,
   }) : super(key: key);
 
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -177,17 +151,23 @@ class ExpansionTileWidget extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "images/github.png",
-                  width: 40,
-                  height: 40,
-                  color: const Color(0xFFF79817),
+                GestureDetector(
+                  onTap: () => _launchURL(githubUrl),
+                  child: Image.asset(
+                    "images/github.png",
+                    width: 40,
+                    height: 40,
+                    color: const Color(0xFFF79817),
+                  ),
                 ),
-                const SizedBox(width: 10), // Adjust as needed
-                Image.asset(
-                  "images/linkedin.png",
-                  width: 40,
-                  height: 40,
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () => _launchURL(linkedinProfile),
+                  child: Image.asset(
+                    "images/linkedin.png",
+                    width: 40,
+                    height: 40,
+                  ),
                 ),
               ],
             ),

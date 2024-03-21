@@ -1,42 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class UnbordingContent {
+class OnbordingContent {
   String animationAsset;
   String title;
   String description;
 
-  UnbordingContent({
+  OnbordingContent({
     required this.animationAsset,
     required this.title,
     required this.description,
   });
 }
 
-List<UnbordingContent> contents = [
-  UnbordingContent(
+List<OnbordingContent> contents = [
+  OnbordingContent(
     title: 'Welcome to zenFilter',
     animationAsset: 'assets/animationAsset/applock.json',
     description:
-        "zenFilter is our app dedicated to the same purpose, effectively detecting and blocking explicit and violent content. It goes beyond, notifying guardians promptly to ensure a secure digital experience for users.",
+        "ZenFilter, a browser enhancement, blocks URLs and keywords, features app locker, provides usage statistics, and ensures safe browsing.",
   ),
-  UnbordingContent(
-    title: 'App Lock',
-    animationAsset: 'assets/animationAsset/applock.json',
-    description:
-        "Ensure a safe digital environment for your family as our app diligently blocks explicit content, providing a secure online space where parents can trust that inappropriate material is kept at bay.",
-  ),
-  UnbordingContent(
+  OnbordingContent(
+      title: 'App Lock',
+      animationAsset: 'assets/animationAsset/applock.json',
+      description:
+          "Secure your apps with a unique lock, ensuring privacy and safety for your personal information and usage."),
+  OnbordingContent(
     title: 'Safe Browser',
     animationAsset: 'assets/animationAsset/WebsiteAccess.json',
     description:
-        "Create a applock-free digital space for your loved ones with our app, intelligently blocking any harmful content. Enjoy a worry-free online experience knowing that our advanced filters prioritize safety and well-being.",
+        " Navigate the internet safely, blocking harmful content and URLs, ensuring a secure and family-friendly browsing experience.",
   ),
-  UnbordingContent(
+  OnbordingContent(
     title: 'App Statistics',
     animationAsset: 'assets/animationAsset/AppStats.json',
     description:
-        "Empower parents with peace of mind using our app's robust parental control features, allowing them to safeguard their children's online experiences with ease and confidence.",
+        "Monitor your app usage with detailed statistics, helping you understand your habits and manage your digital wellbeing.",
   ),
 ];
 
@@ -52,19 +51,19 @@ class MyWidget extends StatelessWidget {
         switch (contents[index].title) {
           case 'Welcome to zenFilter':
             description =
-                "zenFilter is our app dedicated to the same purpose, effectively detecting and blocking explicit and violent content. It goes beyond, notifying guardians promptly to ensure a secure digital experience for users.";
+                "ZenFilter, a browser enhancement, blocks URLs and keywords, features app locker, provides usage statistics, and ensures safe browsing";
             break;
           case 'App Lock':
             description =
-                "Ensure a safe digital environment for your family as our app diligently blocks explicit content, providing a secure online space where parents can trust that inappropriate material is kept at bay.";
+                "Secure your apps with a unique lock, ensuring privacy and safety for your personal information and usage.";
             break;
           case 'Safe Browser':
             description =
-                "Create a applock-free digital space for your loved ones with our app, intelligently blocking any harmful content. Enjoy a worry-free online experience knowing that our advanced filters prioritize safety and well-being.";
+                " Navigate the internet safely, blocking harmful content and URLs, ensuring a secure and family-friendly browsing experience.";
             break;
           case 'App Statistics':
             description =
-                "Empower parents with peace of mind using our app's robust parental control features, allowing them to safeguard their children's online experiences with ease and confidence.";
+                " Monitor your app usage with detailed statistics, helping you understand your habits and manage your digital wellbeing.";
             break;
           default:
             description = ''; // Default description if no match found
